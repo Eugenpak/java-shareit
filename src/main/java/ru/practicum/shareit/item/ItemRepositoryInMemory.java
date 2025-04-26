@@ -25,7 +25,7 @@ public class ItemRepositoryInMemory implements ItemRepository {
     @Override
     public List<Item> findAll(long userId) {
         log.debug("ItemRepositoryInMemory findAll().");
-        return items.values().stream().filter(i-> i.getOwnerId() == userId).toList();
+        return items.values().stream().filter(i -> i.getOwnerId() == userId).toList();
     }
 
     @Override
@@ -59,7 +59,7 @@ public class ItemRepositoryInMemory implements ItemRepository {
     @Override
     public List<Item> getBySearch(String text) {
         List<Item> list = items.values().stream().filter(Item::getAvailable)
-                .filter(i->searchSubStr(i,text)).toList();
+                .filter(i -> searchSubStr(i,text)).toList();
         log.debug("ItemRepositoryInMemory getBySearch(text:{}).", text);
         return list;
     }

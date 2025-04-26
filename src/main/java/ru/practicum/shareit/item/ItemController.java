@@ -27,7 +27,7 @@ public class ItemController {
 
     @GetMapping("/{itemId}")
     public ItemDto getById(@NotNull @RequestHeader("X-Sharer-User-Id") long userId,
-                           @PathVariable(name="itemId") long itemId) {
+                           @PathVariable(name = "itemId") long itemId) {
         log.info("-----------------------------------------|getById|------");
         log.info("I-C -> getById(X-Sharer-User-Id: {},itemId: {})",userId,itemId);
         return itemService.getByItemId(userId,itemId);
@@ -51,7 +51,7 @@ public class ItemController {
 
     @PatchMapping("/{itemId}")
     public ItemDto update(@NotNull @RequestHeader("X-Sharer-User-Id") long userId,
-                          @PathVariable(name="itemId") long itemId,
+                          @PathVariable(name = "itemId") long itemId,
                           @RequestBody ItemDto itemDto) {
         log.info("-----------------------------------------|update|------");
         log.info("I-C -> update(X-Sharer-User-Id: {},itemId: {},itemDto: {})",userId,itemId,itemDto);
@@ -60,7 +60,7 @@ public class ItemController {
 
     @DeleteMapping("/{itemId}")
     public void deleteItem(@NotNull @RequestHeader("X-Sharer-User-Id") long userId,
-                           @PathVariable(name="itemId") long itemId) {
+                           @PathVariable(name = "itemId") long itemId) {
         log.info("-----------------------------------------|deleteItem|------");
         log.info("I-C -> deleteItem(X-Sharer-User-Id: {},itemId: {})",userId,itemId);
         itemService.deleteItem(userId, itemId);
