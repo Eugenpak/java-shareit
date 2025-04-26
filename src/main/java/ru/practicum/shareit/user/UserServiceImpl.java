@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService {
         return userCollection
                 .stream()
                 .filter(u -> u.getEmail().equals(user.getEmail())) // Фильтруем по email
-                .anyMatch(u -> u.getId() != user.getId()); // Проверяем, что это не тот же самый пользователь
+                .anyMatch(u -> !u.getId().equals(user.getId())); // Проверяем, что это не тот же самый пользователь
     }
 
     private boolean checkExistsEmail(User user, Collection<User> userCollection) {
