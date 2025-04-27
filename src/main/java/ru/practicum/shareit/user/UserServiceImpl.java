@@ -1,92 +1,100 @@
 package ru.practicum.shareit.user;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.exception.ConflictException;
 import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.exception.ValidationException;
-
+import ru.practicum.shareit.user.dto.UserDto;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
-
 @Service
+@RequiredArgsConstructor
 @Slf4j
 public class UserServiceImpl implements UserService {
     private final UserRepository repository;
-
-    @Autowired
-    public UserServiceImpl(UserRepository repository) {
-        this.repository = repository;
-    }
+    private final UserMapper userMapper;
 
     @Override
-    public Collection<User> findAll() {
+    public List<UserDto> findAll() {
         log.info("Start User findAll()");
-        return repository.findAll();
+        List<User> list = findAllUser();
+        return userMapper.toDtos(list);
+    }
+
+    private List<User> findAllUser() {
+        return repository.findAll().stream().toList();
     }
 
     @Override
-    public User create(User user) {
-        log.info("US->Service User = " + user);
-        if (checkExistsEmail(user, findAll())) {
+    public UserDto create(UserDto userDto) {
+        log.info("US->Service UserDto = " + userDto);
+        if (checkExistsEmail(userDto, findAllUser())) {
             String str = "Этот e-mail уже есть у другого пользователя";
             log.error(str);
             throw new ConflictException(str);
         }
-        if (user.getName() == null || user.getName().isBlank()) {
-            log.info("USer -> create(): user.name = {}",user.getName());
+        if (userDto.getName() == null || userDto.getName().isBlank()) {
+            log.info("USer -> create(): user.name = {}",userDto.getName());
         }
         // сохраняем новую публикацию в памяти приложения
-        User createdUser = repository.create(user);
+        User createdUser = repository.create(userMapper.fromDto(userDto));
         log.info("Новый пользователь сохранен S (id=" + createdUser.getId() + ", email='" + createdUser.getEmail() + "')");
-        return createdUser;
+        return userMapper.toDto(createdUser);
     }
 
     @Override
-    public User update(User newUser,long id) {
+    public UserDto update(UserDto newUserDto,long id) {
         // проверяем необходимые условия
         log.info("Start U-S update()");
-        log.info("PATCH->Body User = " + newUser);
+        log.info("PATCH->Body UserDto = " + newUserDto);
         if (id <= 0) {
             log.error("ValidationException id");
             throw new ValidationException("Id должен быть указан и значение больше 0");
         }
-        newUser.setId(id);
-        if (checkEmail(newUser, findAll())) { //
+        newUserDto.setId(id);
+        if (checkEmail(newUserDto, findAllUser())) { //
             log.error("ConflictException email");
             throw new ConflictException("Этот e-mail уже есть у другого пользователя");
         }
-        User oldUser = findUserById(newUser.getId());
+        User oldUser = findById(id);
+        User newUser = userMapper.fromDto(newUserDto);
 
-        if (newUser.getEmail() != null && !checkEmail(newUser, findAll())) {
+        if (newUser.getEmail() != null) {
             oldUser.setEmail(newUser.getEmail());
         }
         if (newUser.getName() != null) {
             oldUser.setName(newUser.getName());
         }
         // если user найдена и все условия соблюдены, обновляем её содержимое
-
         log.info("Данные пользователя обновляются (id=" + oldUser.getId() + ", email='" + oldUser.getEmail() + "')");
-        return repository.update(oldUser);
+        User userUpdate = repository.update(oldUser);
+        return userMapper.toDto(userUpdate);
     }
 
-    private boolean checkEmail(User user, Collection<User> userCollection) {
+    private boolean checkEmail(UserDto userDto, Collection<User> userCollection) {
         return userCollection
                 .stream()
-                .filter(u -> u.getEmail().equals(user.getEmail())) // Фильтруем по email
-                .anyMatch(u -> !u.getId().equals(user.getId())); // Проверяем, что это не тот же самый пользователь
+                .filter(u -> u.getEmail().equals(userDto.getEmail())) // Фильтруем по email
+                .anyMatch(u -> !u.getId().equals(userDto.getId())); // Проверяем, что это не тот же самый пользователь
     }
 
-    private boolean checkExistsEmail(User user, Collection<User> userCollection) {
+    private boolean checkExistsEmail(UserDto userDto, Collection<User> userCollection) {
         return userCollection
                 .stream()
-                .anyMatch(u -> u.getEmail().equals(user.getEmail())); // Проверяем, что это не тот же самый пользователь
+                .anyMatch(u -> u.getEmail().equals(userDto.getEmail())); // Проверяем, что это не тот же самый пользователь
     }
 
     @Override
-    public User findUserById(long id) {
+    public UserDto findUserById(long id) {
+        log.info("U-S findUserById({})", id);
+        return userMapper.toDto(findById(id));
+    }
+
+    private User findById(long id) {
         Optional<User> findUser = repository.findUserById(id);
         if (findUser.isEmpty()) {
             throw new NotFoundException("Пользователь с id = " + id + " не найден");

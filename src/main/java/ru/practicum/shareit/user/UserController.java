@@ -6,12 +6,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.shareit.user.dto.UserDto;
 
-import java.util.Collection;
+import java.util.List;
 
-/**
- * TODO Sprint add-controllers.
- */
 @RestController
 @RequestMapping(path = "/users")
 @Validated
@@ -25,39 +23,39 @@ public class UserController {
     }
 
     @GetMapping
-    public Collection<User> findAll() {
+    public List<UserDto> findAll() {
         log.info("Start User findAll()");
         return userService.findAll();
     }
 
     @PostMapping
-    public User create(@Valid @RequestBody User user) {
-        log.info("Start User create()");
-        log.info("POST->Body User = " + user);
+    public UserDto create(@Valid @RequestBody UserDto userDto) {
+        log.info("Start UserDto create()");
+        log.info("POST->Body UserDto = " + userDto);
         // сохраняем новую публикацию в памяти приложения
-        log.info("UC Новый пользователь сохраняется (id=" + user.getId() + ", email='" + user.getEmail() + "')");
-        return userService.create(user);
+        log.info("UC Новый пользователь сохраняется (id=" + userDto.getId() + ", email='" + userDto.getEmail() + "')");
+        return userService.create(userDto);
     }
 
     @PatchMapping(value = "/{id}")
-    public User update(@RequestBody User user,@NotNull @PathVariable long id) {
+    public UserDto update(@RequestBody UserDto userDto,@NotNull @PathVariable long id) {
         // проверяем необходимые условия
-        log.info("Start User update()");
-        log.info("PUT->Body User = " + user);
-        return userService.update(user,id);
+        log.info("Start UserDto update()");
+        log.info("PUT->Body UserDto = " + userDto);
+        return userService.update(userDto,id);
     }
 
     @GetMapping(value = "/{id}")
-    public User findUserById(@NotNull @PathVariable long id) {
-        log.info("UC User findUserById(id=" + id + ")");
-        User findUser = userService.findUserById(id);
+    public UserDto findUserById(@NotNull @PathVariable long id) {
+        log.info("UC UserDto findUserById(id=" + id + ")");
+        UserDto findUser = userService.findUserById(id);
         log.info("UC findUser: " + findUser);
         return findUser;
     }
 
     @DeleteMapping(value = "/{id}")
     public void delUserById(@NotNull @PathVariable long id) {
-        log.info("UC User delUserById(id=" + id + ")");
+        log.info("UC UserDto delUserById(id=" + id + ")");
         userService.delUserById(id);
         log.info("UC delUserById(id=" + id + ") удален!");
     }

@@ -1,4 +1,4 @@
-package ru.practicum.shareit.user;
+package ru.practicum.shareit.user.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class UserDto {
     private Long id; //— уникальный идентификатор пользователя
     @NotBlank(message = "must not be blank")
     @Email(message = "Недопустимый email. Попробуйте снова.")
