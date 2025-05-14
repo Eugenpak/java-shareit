@@ -1,5 +1,7 @@
 package ru.practicum.shareit.item;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -21,7 +23,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-//@RequiredArgsConstructor
+//@NoArgsConstructor
+//@AllArgsConstructor
 @Slf4j
 @Transactional(readOnly = true)
 public class ItemServiceImpl implements ItemService {
@@ -60,7 +63,7 @@ public class ItemServiceImpl implements ItemService {
         log.info("----> item: {}",item);
         if (item.getOwner().getId().equals(userId)) {
             log.info("----> show item owner: {}",userId);
-            return ItemMapper.toDto(item, //bookingService.getBookingInfo(itemId),
+            return ItemMapper.toDto(item, bookingService.getBookingInfo(itemId),
                     getAllCommentsByItemId(itemId));
         }
         log.info("----> show item other: owner_id: {}, user_id: {}",item.getOwner().getId(),userId);
