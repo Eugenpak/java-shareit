@@ -41,7 +41,8 @@ public class UserServiceImpl implements UserService {
             log.info("USer -> create(): user.name = {}",userDto.getName());
         }
         // сохраняем новую публикацию в памяти приложения
-        User createdUser = repository.create(userMapper.fromDto(userDto));
+        //User createdUser = repository.create(userMapper.fromDto(userDto));
+        User createdUser = repository.save(userMapper.fromDto(userDto));
         log.info("Новый пользователь сохранен S (id=" + createdUser.getId() + ", email='" + createdUser.getEmail() + "')");
         return userMapper.toDto(createdUser);
     }
@@ -71,7 +72,8 @@ public class UserServiceImpl implements UserService {
         }
         // если user найдена и все условия соблюдены, обновляем её содержимое
         log.info("Данные пользователя обновляются (id=" + oldUser.getId() + ", email='" + oldUser.getEmail() + "')");
-        User userUpdate = repository.update(oldUser);
+        //User userUpdate = repository.update(oldUser);
+        User userUpdate = repository.save(oldUser);
         return userMapper.toDto(userUpdate);
     }
 
@@ -95,7 +97,8 @@ public class UserServiceImpl implements UserService {
     }
 
     private User findById(long id) {
-        Optional<User> findUser = repository.findUserById(id);
+        //Optional<User> findUser = repository.findUserById(id);
+        Optional<User> findUser = repository.findById(id);
         if (findUser.isEmpty()) {
             throw new NotFoundException("Пользователь с id = " + id + " не найден");
         }
@@ -105,10 +108,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public void delUserById(long id) {
         log.info("Start U-S delUserById({})", id);
-        boolean delUser = repository.delUserById(id);
-        if (!delUser) {
-            throw new NotFoundException("Пользователь с id = " + id + " не найден");
-        }
+        //boolean delUser = repository.delUserById(id);
+        findById(id);
+        repository.deleteById(id);
         log.info("Удален User delUserById({})", id);
     }
 }
