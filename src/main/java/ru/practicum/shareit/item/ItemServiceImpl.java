@@ -46,7 +46,7 @@ public class ItemServiceImpl implements ItemService {
         //List<Item> list = itemRepository.findAll(userId);
         List<ItemDto> list = itemRepository.findByOwnerIdOrderByIdAsc(userId)
                 .stream()
-                .map(item -> ItemMapper.toDto(item, bookingService.getBookingInfo(item.getId()),
+                .map(item -> ItemMapper.toDto(item, //bookingService.getBookingInfo(item.getId()),
                         getAllCommentsByItemId(item.getId())))
                 .collect(Collectors.toList());
 
@@ -60,7 +60,7 @@ public class ItemServiceImpl implements ItemService {
         log.info("----> item: {}",item);
         if (item.getOwner().getId().equals(userId)) {
             log.info("----> show item owner: {}",userId);
-            return ItemMapper.toDto(item, bookingService.getBookingInfo(itemId),
+            return ItemMapper.toDto(item, //bookingService.getBookingInfo(itemId),
                     getAllCommentsByItemId(itemId));
         }
         log.info("----> show item other: owner_id: {}, user_id: {}",item.getOwner().getId(),userId);
