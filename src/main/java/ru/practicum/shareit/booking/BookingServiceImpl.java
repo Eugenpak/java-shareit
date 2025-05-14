@@ -143,6 +143,7 @@ public class BookingServiceImpl implements BookingService {
 
     public Map<String,BookerInfoDto> getBookingInfo(long itemId) {
         Map<String,BookerInfoDto> map = new HashMap<>();
+
         map.put("LastBooking",getLastBooking(itemId));
         System.out.println("B-S LastBooking = " + map.get("LastBooking"));
         map.put("NextBooking",getNextBooking(itemId));

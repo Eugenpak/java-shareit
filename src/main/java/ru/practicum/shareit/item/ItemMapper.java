@@ -14,7 +14,7 @@ import java.util.Map;
 
 @Component
 public class ItemMapper {
-    public static ItemDto toDto(Item item, Map<String, BookerInfoDto> mapBooking, List<CommentDto> commentDtos) {
+    public static ItemDto toDto(Item item, Map<String,BookerInfoDto> mapBooking, List<CommentDto> commentDtos) {
         ItemDto itemDto = ItemDto.builder()
                 .id(item.getId())
                 .name(item.getName())

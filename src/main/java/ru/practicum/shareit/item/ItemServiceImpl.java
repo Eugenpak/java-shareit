@@ -55,12 +55,15 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public ItemDto getByUserIdAndItemId(long userId,long itemId) {
-        log.info("I-S -> getByItemId(): userId: {},itemId: {}",userId,itemId);
+        log.info("I-S -> getByUserIdAndItemId(): userId: {},itemId: {}",userId,itemId);
         Item item = findOneByItemId(itemId);
+        log.info("----> item: {}",item);
         if (item.getOwner().getId().equals(userId)) {
+            log.info("----> show item owner: {}",userId);
             return ItemMapper.toDto(item, bookingService.getBookingInfo(itemId),
                     getAllCommentsByItemId(itemId));
         }
+        log.info("----> show item other: owner_id: {}, user_id: {}",item.getOwner().getId(),userId);
         return ItemMapper.toDto(item, getAllCommentsByItemId(itemId));
     }
 
