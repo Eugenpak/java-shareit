@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.practicum.shareit.booking.dto.BookerInfoDto;
-import ru.practicum.shareit.user.User;
 
 import java.util.List;
 
