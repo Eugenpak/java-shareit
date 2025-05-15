@@ -74,15 +74,8 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             "ORDER BY b.start DESC")
     List<Booking> getAllPastBookingsByOwnerId(Long ownerId, LocalDateTime currentTime);
 
-    @Query(value = "SELECT * FROM bookings b JOIN items i ON i.id = b.item_id " +
-            "WHERE b.item_id = :itemId AND b.end_date < :currentTime " +
-            "ORDER BY b.end_date ASC LIMIT 1",
-            nativeQuery = true)
-    Optional<Booking> getLastBooking(Long itemId, LocalDateTime currentTime);
+   // для получения последнего и первого бронирования конкретной вещи
+    Optional<Booking> findFirstByItemIdAndStatusAndStartBeforeOrderByStartDesc(Long itemId, Status status, LocalDateTime now);
 
-    @Query(value = "SELECT * FROM bookings b JOIN items i ON i.id = b.item_id " +
-            "WHERE b.item_id = :itemId AND b.start_date > :currentTime AND b.status != 'REJECTED' " +
-            "ORDER BY b.start_date ASC LIMIT 1",
-            nativeQuery = true)
-    Optional<Booking> getNextBooking(Long itemId, LocalDateTime currentTime);
+    Optional<Booking> findFirstByItemIdAndStatusAndStartAfterOrderByStartAsc(Long itemId, Status status, LocalDateTime now);
 }

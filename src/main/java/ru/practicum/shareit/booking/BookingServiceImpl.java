@@ -3,7 +3,6 @@ package ru.practicum.shareit.booking;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.practicum.shareit.booking.dto.BookerInfoDto;
 import ru.practicum.shareit.booking.dto.BookingInDto;
 import ru.practicum.shareit.booking.dto.BookingOutDto;
 import ru.practicum.shareit.exception.BookingStateException;
@@ -15,9 +14,7 @@ import ru.practicum.shareit.user.UserService;
 import ru.practicum.shareit.user.dto.UserDto;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 @Service
@@ -131,22 +128,4 @@ public class BookingServiceImpl implements BookingService {
             default -> throw new BookingStateException("Unknown state: " + state);
         };
     }
-
-    @Override
-    public void checkBookingsByUserIdAndItemId(long userId, long itemId) {
-
-    }
-
-    public Map<String,BookerInfoDto> getBookingInfo(long itemId) {
-        Map<String,BookerInfoDto> map = new HashMap<>();
-
-        //map.put("LastBooking",getLastBooking(itemId));
-        System.out.println("B-S LastBooking = " + map.get("LastBooking"));
-        //map.put("NextBooking",getNextBooking(itemId));
-        System.out.println("B-S NextBooking = " + map.get("NextBooking"));
-        //return map;
-        return null;
-    }
-
-
 }

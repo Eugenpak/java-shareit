@@ -24,14 +24,15 @@ public class UserController {
 
     @GetMapping
     public List<UserDto> findAll() {
-        log.info("Start User findAll()");
+        log.info("-----------------------------------------|findAll|------");
+        log.info("U-C Start User findAll()");
         return userService.findAll();
     }
 
     @PostMapping
     public UserDto create(@Valid @RequestBody UserDto userDto) {
-        log.info("Start UserDto create()");
-        log.info("POST->Body UserDto = " + userDto);
+        log.info("-----------------------------------------|create|------");
+        log.info("U-C POST->Body UserDto = " + userDto);
         // сохраняем новую публикацию в памяти приложения
         log.info("UC Новый пользователь сохраняется (id=" + userDto.getId() + ", email='" + userDto.getEmail() + "')");
         return userService.create(userDto);
@@ -39,7 +40,7 @@ public class UserController {
 
     @PatchMapping(value = "/{id}")
     public UserDto update(@RequestBody UserDto userDto,@NotNull @PathVariable long id) {
-        // проверяем необходимые условия
+        log.info("-----------------------------------------|update|------");
         log.info("Start UserDto update()");
         log.info("PUT->Body UserDto = " + userDto);
         return userService.update(userDto,id);
@@ -47,16 +48,18 @@ public class UserController {
 
     @GetMapping(value = "/{id}")
     public UserDto findUserById(@NotNull @PathVariable long id) {
-        log.info("UC UserDto findUserById(id=" + id + ")");
+        log.info("-----------------------------------------|findUserById|------");
+        log.info("U-C UserDto findUserById(id=" + id + ")");
         UserDto findUser = userService.findUserById(id);
-        log.info("UC findUser: " + findUser);
+        log.info("U-C findUser: " + findUser);
         return findUser;
     }
 
     @DeleteMapping(value = "/{id}")
     public void delUserById(@NotNull @PathVariable long id) {
-        log.info("UC UserDto delUserById(id=" + id + ")");
+        log.info("-----------------------------------------|delUserById|------");
+        log.info("U-C UserDto delUserById(id=" + id + ")");
         userService.delUserById(id);
-        log.info("UC delUserById(id=" + id + ") удален!");
+        log.info("U-C delUserById(id=" + id + ") удален!");
     }
 }

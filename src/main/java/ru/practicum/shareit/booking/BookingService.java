@@ -1,11 +1,9 @@
 package ru.practicum.shareit.booking;
 
-import ru.practicum.shareit.booking.dto.BookerInfoDto;
 import ru.practicum.shareit.booking.dto.BookingInDto;
 import ru.practicum.shareit.booking.dto.BookingOutDto;
-
 import java.util.List;
-import java.util.Map;
+
 
 public interface BookingService {
     BookingOutDto create(Long userId, BookingInDto bookingInDto);
@@ -17,8 +15,4 @@ public interface BookingService {
     List<BookingOutDto> findAllByBooker(Long bookerId, State state);
 
     List<BookingOutDto> findAllByOwner(Long userId, State state);
-
-    void checkBookingsByUserIdAndItemId(long userId, long itemId);
-
-    Map<String, BookerInfoDto> getBookingInfo(long itemId);
 }

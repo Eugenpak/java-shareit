@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> findAll() {
-        log.info("Start User findAll()");
+        log.info("U-S User findAll()");
         List<User> list = findAllUser();
         return userMapper.toDtos(list);
     }
@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto create(UserDto userDto) {
-        log.info("US->Service UserDto = " + userDto);
+        log.info("U-S -> Service UserDto = " + userDto);
         if (checkExistsEmail(userDto, findAllUser())) {
             String str = "Этот e-mail уже есть у другого пользователя";
             log.error(str);
@@ -41,7 +41,6 @@ public class UserServiceImpl implements UserService {
             log.info("USer -> create(): user.name = {}",userDto.getName());
         }
         // сохраняем новую публикацию в памяти приложения
-        //User createdUser = repository.create(userMapper.fromDto(userDto));
         User createdUser = repository.save(userMapper.fromDto(userDto));
         log.info("Новый пользователь сохранен S (id=" + createdUser.getId() + ", email='" + createdUser.getEmail() + "')");
         return userMapper.toDto(createdUser);
@@ -50,7 +49,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto update(UserDto newUserDto,long id) {
         // проверяем необходимые условия
-        log.info("Start U-S update()");
+        log.info("U-S Start update()");
         log.info("PATCH->Body UserDto = " + newUserDto);
         if (id <= 0) {
             log.error("ValidationException id");
@@ -72,7 +71,7 @@ public class UserServiceImpl implements UserService {
         }
         // если user найдена и все условия соблюдены, обновляем её содержимое
         log.info("Данные пользователя обновляются (id=" + oldUser.getId() + ", email='" + oldUser.getEmail() + "')");
-        //User userUpdate = repository.update(oldUser);
+
         User userUpdate = repository.save(oldUser);
         return userMapper.toDto(userUpdate);
     }
@@ -97,7 +96,6 @@ public class UserServiceImpl implements UserService {
     }
 
     private User findById(long id) {
-        //Optional<User> findUser = repository.findUserById(id);
         Optional<User> findUser = repository.findById(id);
         if (findUser.isEmpty()) {
             throw new NotFoundException("Пользователь с id = " + id + " не найден");
@@ -107,8 +105,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delUserById(long id) {
-        log.info("Start U-S delUserById({})", id);
-        //boolean delUser = repository.delUserById(id);
+        log.info("U-S Start delUserById({})", id);
+
         findById(id);
         repository.deleteById(id);
         log.info("Удален User delUserById({})", id);
