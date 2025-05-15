@@ -134,34 +134,19 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public void checkBookingsByUserIdAndItemId(long userId, long itemId) {
-        List<Booking> bookings = bookingRepository.getAllUserBookings(userId, itemId, LocalDateTime.now());
 
-        if (bookings.isEmpty()) {
-            throw new ValidationException("Создай бронирование, чтобы оставить комментарий!");
-        }
     }
 
     public Map<String,BookerInfoDto> getBookingInfo(long itemId) {
         Map<String,BookerInfoDto> map = new HashMap<>();
 
-        map.put("LastBooking",getLastBooking(itemId));
+        //map.put("LastBooking",getLastBooking(itemId));
         System.out.println("B-S LastBooking = " + map.get("LastBooking"));
-        map.put("NextBooking",getNextBooking(itemId));
+        //map.put("NextBooking",getNextBooking(itemId));
         System.out.println("B-S NextBooking = " + map.get("NextBooking"));
-        return map;
+        //return map;
+        return null;
     }
 
-    private BookerInfoDto getLastBooking(long itemId) {
-        return bookingRepository
-                .getLastBooking(itemId, LocalDateTime.now())
-                .map(BookingMapper::toBookingInfoDto)
-                .orElse(null);
-    }
 
-    private BookerInfoDto getNextBooking(long itemId) {
-        return bookingRepository
-                .getNextBooking(itemId, LocalDateTime.now())
-                .map(BookingMapper::toBookingInfoDto)
-                .orElse(null);
-    }
 }

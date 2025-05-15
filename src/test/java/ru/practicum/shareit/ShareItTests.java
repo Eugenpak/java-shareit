@@ -1,16 +1,15 @@
 package ru.practicum.shareit;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE, classes = ShareItApp.class)
+@SpringBootTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
 class ShareItTests {
 
 	@Test
 	void contextLoads() {
-		assertTrue(true);
 	}
 
 }

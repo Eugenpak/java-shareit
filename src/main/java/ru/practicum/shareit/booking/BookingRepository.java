@@ -75,7 +75,8 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     List<Booking> getAllPastBookingsByOwnerId(Long ownerId, LocalDateTime currentTime);
 
     @Query(value = "SELECT * FROM bookings b JOIN items i ON i.id = b.item_id " +
-            "WHERE b.item_id = :itemId AND b.end_date < :currentTime ORDER BY b.end_date ASC LIMIT 1",
+            "WHERE b.item_id = :itemId AND b.end_date < :currentTime " +
+            "ORDER BY b.end_date ASC LIMIT 1",
             nativeQuery = true)
     Optional<Booking> getLastBooking(Long itemId, LocalDateTime currentTime);
 
