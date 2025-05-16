@@ -20,7 +20,7 @@ public class ItemDto {
     private Boolean available;
     @JsonIgnore
     private Long ownerId;
-    BookerInfoDto lastBooking;
-    BookerInfoDto nextBooking;
-    List<CommentDto> comments;
+    private BookerInfoDto lastBooking;
+    private BookerInfoDto nextBooking;
+    private List<CommentDto> comments;
 }
