@@ -1,13 +1,14 @@
 package ru.practicum.shareit.user;
 
-import org.springframework.stereotype.Component;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import ru.practicum.shareit.user.dto.UserDto;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserMapper {
-    public UserDto toDto(User user) {
+    public static UserDto toDto(User user) {
         return UserDto.builder()
                 .id(user.getId())
                 .name(user.getName())
@@ -15,7 +16,7 @@ public class UserMapper {
                 .build();
     }
 
-    public User fromDto(UserDto userDto) {
+    public static User fromDto(UserDto userDto) {
         return User.builder()
                 .id(userDto.getId())
                 .name(userDto.getName())
@@ -23,7 +24,7 @@ public class UserMapper {
                 .build();
     }
 
-    public List<UserDto> toDtos(List<User> users) {
+    public static List<UserDto> toDtos(List<User> users) {
         List<UserDto> result = new ArrayList<>();
         for (User user : users) {
             result.add(toDto(user));
