@@ -3,6 +3,7 @@ package ru.practicum.shareit.user;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.exception.ConflictException;
 import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.exception.ValidationException;
@@ -14,15 +15,15 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
     private final UserRepository repository;
-    private final UserMapper userMapper;
 
     @Override
     public List<UserDto> findAll() {
-        log.info("Start User findAll()");
+        log.info("U-S User findAll()");
         List<User> list = findAllUser();
-        return userMapper.toDtos(list);
+        return UserMapper.toDtos(list);
     }
 
     private List<User> findAllUser() {
@@ -30,8 +31,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public UserDto create(UserDto userDto) {
-        log.info("US->Service UserDto = " + userDto);
+        log.info("U-S -> Service UserDto = " + userDto);
         if (checkExistsEmail(userDto, findAllUser())) {
             String str = "Этот e-mail уже есть у другого пользователя";
             log.error(str);
@@ -41,15 +43,16 @@ public class UserServiceImpl implements UserService {
             log.info("USer -> create(): user.name = {}",userDto.getName());
         }
         // сохраняем новую публикацию в памяти приложения
-        User createdUser = repository.create(userMapper.fromDto(userDto));
+        User createdUser = repository.save(UserMapper.fromDto(userDto));
         log.info("Новый пользователь сохранен S (id=" + createdUser.getId() + ", email='" + createdUser.getEmail() + "')");
-        return userMapper.toDto(createdUser);
+        return UserMapper.toDto(createdUser);
     }
 
     @Override
+    @Transactional
     public UserDto update(UserDto newUserDto,long id) {
         // проверяем необходимые условия
-        log.info("Start U-S update()");
+        log.info("U-S Start update()");
         log.info("PATCH->Body UserDto = " + newUserDto);
         if (id <= 0) {
             log.error("ValidationException id");
@@ -61,7 +64,7 @@ public class UserServiceImpl implements UserService {
             throw new ConflictException("Этот e-mail уже есть у другого пользователя");
         }
         User oldUser = findById(id);
-        User newUser = userMapper.fromDto(newUserDto);
+        User newUser = UserMapper.fromDto(newUserDto);
 
         if (newUser.getEmail() != null) {
             oldUser.setEmail(newUser.getEmail());
@@ -71,8 +74,9 @@ public class UserServiceImpl implements UserService {
         }
         // если user найдена и все условия соблюдены, обновляем её содержимое
         log.info("Данные пользователя обновляются (id=" + oldUser.getId() + ", email='" + oldUser.getEmail() + "')");
-        User userUpdate = repository.update(oldUser);
-        return userMapper.toDto(userUpdate);
+
+        User userUpdate = repository.save(oldUser);
+        return UserMapper.toDto(userUpdate);
     }
 
     private boolean checkEmail(UserDto userDto, Collection<User> userCollection) {
@@ -91,11 +95,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto findUserById(long id) {
         log.info("U-S findUserById({})", id);
-        return userMapper.toDto(findById(id));
+        return UserMapper.toDto(findById(id));
     }
 
     private User findById(long id) {
-        Optional<User> findUser = repository.findUserById(id);
+        Optional<User> findUser = repository.findById(id);
         if (findUser.isEmpty()) {
             throw new NotFoundException("Пользователь с id = " + id + " не найден");
         }
@@ -103,12 +107,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void delUserById(long id) {
-        log.info("Start U-S delUserById({})", id);
-        boolean delUser = repository.delUserById(id);
-        if (!delUser) {
-            throw new NotFoundException("Пользователь с id = " + id + " не найден");
-        }
+        log.info("U-S Start delUserById({})", id);
+
+        findById(id);
+        repository.deleteById(id);
         log.info("Удален User delUserById({})", id);
     }
 }
