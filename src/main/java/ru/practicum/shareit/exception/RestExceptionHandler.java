@@ -13,18 +13,28 @@ public class RestExceptionHandler {
     @ExceptionHandler(ValidationException.class)
     public ResponseEntity<ErrorMessage> handleValidationException(ValidationException e) {
         log.error(e.getMessage(), e);
-        return new ResponseEntity<>(new ErrorMessage(HttpStatus.BAD_REQUEST.value(), "ValidationException",e.getMessage()), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new ErrorMessage(HttpStatus.BAD_REQUEST.value(), "ValidationException",
+                e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ErrorMessage> handleNotFoundException(NotFoundException e) {
         log.error(e.getMessage(), e);
-        return new ResponseEntity<>(new ErrorMessage(HttpStatus.NOT_FOUND.value(), "NotFoundException", e.getMessage()), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(new ErrorMessage(HttpStatus.NOT_FOUND.value(), "NotFoundException",
+                e.getMessage()), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(ConflictException.class)
     public ResponseEntity<ErrorMessage> handleConflictException(ConflictException e) {
         log.error(e.getMessage(), e);
-        return new ResponseEntity<>(new ErrorMessage(HttpStatus.CONFLICT.value(), "ConflictException", e.getMessage()), HttpStatus.CONFLICT);
+        return new ResponseEntity<>(new ErrorMessage(HttpStatus.CONFLICT.value(), "ConflictException",
+                e.getMessage()), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(BookingStateException.class)
+    public ResponseEntity<ErrorMessage> handleBookingStateException(BookingStateException e) {
+        log.error(e.getMessage(), e);
+        return new ResponseEntity<>(new ErrorMessage(HttpStatus.BAD_REQUEST.value(), "BookingStateException",
+                e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 }
