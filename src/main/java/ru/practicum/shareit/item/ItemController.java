@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.Marker;
 import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
+import jakarta.validation.constraints.Min;
 
 import java.util.List;
 
@@ -20,10 +21,12 @@ public class ItemController {
     private final ItemService itemService;
 
     @GetMapping
-    public List<ItemDto> get(@NotNull @RequestHeader("X-Sharer-User-Id") long userId) {
+    public List<ItemDto> get(@NotNull @RequestHeader("X-Sharer-User-Id") long userId,
+                             @RequestParam(value = "from", required = false, defaultValue = "0") @Min(0) Integer from,
+                             @RequestParam(value = "size", required = false, defaultValue = "10") @Min(1) Integer size) {
         log.info("-----------------------------------------|get|------");
         log.info("I-C -> get(X-Sharer-User-Id: {})",userId);
-        return itemService.getItems(userId);
+        return itemService.getItems(userId, from, size);
     }
 
     @GetMapping("/{itemId}")
@@ -36,10 +39,12 @@ public class ItemController {
 
     @GetMapping("/search")
     public List<ItemDto> getBySearch(@NotNull @RequestHeader("X-Sharer-User-Id") long userId,
-                                 @RequestParam(name = "text", required = false) String text) {
+                                 @RequestParam(name = "text", required = false) String text,
+                                 @RequestParam(value = "from", required = false, defaultValue = "0") @Min(0) Integer from,
+                                 @RequestParam(value = "size", required = false, defaultValue = "10") @Min(1) Integer size) {
         log.info("-----------------------------------------|getBySearch|------");
         log.info("I-C -> getBySearch(X-Sharer-User-Id: {},text: {})",userId,text);
-        return itemService.getBySearch(userId,text);
+        return itemService.getBySearch(userId,text, from, size);
     }
 
     @PostMapping
