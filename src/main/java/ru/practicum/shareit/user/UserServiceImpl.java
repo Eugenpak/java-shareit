@@ -27,8 +27,8 @@ public class UserServiceImpl implements UserService {
     }
 
     private List<User> findAllUser() {
-        return repository.findAll().stream().toList();
-    }
+        return repository.findAll();
+    } //.stream().toList()
 
     @Override
     @Transactional
