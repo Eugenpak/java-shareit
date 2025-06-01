@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.Marker;
 import ru.practicum.shareit.booking.dto.BookingInDto;
 import ru.practicum.shareit.booking.dto.BookingOutDto;
+import jakarta.validation.constraints.Min;
 
 import java.util.List;
 
@@ -41,15 +42,19 @@ public class BookingController {
 
     @GetMapping
     public List<BookingOutDto> getAll(@RequestHeader("X-Sharer-User-Id") Long userId,
-                                         @RequestParam(value = "state", defaultValue = "ALL") State state) {
+                                      @RequestParam(value = "state", defaultValue = "ALL") State state,
+                                      @RequestParam(value = "from", required = false, defaultValue = "0") @Min(0) Integer from,
+                                      @RequestParam(value = "size", required = false, defaultValue = "10") @Min(1) Integer size) {
         log.info("-----------------------------------------|getAll|------");
-        return bookingService.findAllByBooker(userId, state);
+        return bookingService.findAllByBooker(userId, state, from, size);
     }
 
     @GetMapping("/owner")
     public List<BookingOutDto> getAllByOwner(@RequestHeader("X-Sharer-User-Id") Long userId,
-                                             @RequestParam(value = "state", defaultValue = "ALL") State state) {
+                                             @RequestParam(value = "state", defaultValue = "ALL") State state,
+                                             @RequestParam(value = "from", required = false, defaultValue = "0") @Min(0) Integer from,
+                                             @RequestParam(value = "size", required = false, defaultValue = "10") @Min(1) Integer size) {
         log.info("-----------------------------------------|getAllByOwner|------");
-        return bookingService.findAllByOwner(userId, state);
+        return bookingService.findAllByOwner(userId, state, from, size);
     }
 }

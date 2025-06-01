@@ -52,7 +52,7 @@ public class BookingMapper {
         ItemDto itemDto = new ItemDto(booking.getItem().getId(),
                 booking.getItem().getName(), booking.getItem().getDescription(),
                 booking.getItem().getAvailable(), booking.getItem().getOwner().getId(),
-                null,null,new ArrayList<>());
+                null,null,new ArrayList<>(), booking.getItem().getRequestId());
 
         return new BookingOutDto(booking.getId(),
                 booking.getStart(), booking.getEnd(),

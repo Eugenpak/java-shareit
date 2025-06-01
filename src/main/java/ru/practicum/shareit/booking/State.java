@@ -1,7 +1,7 @@
 package ru.practicum.shareit.booking;
 
 public enum State {
-    ALL,CURRENT,PAST,FUTURE,WAITING,REJECTED
+    ALL,CURRENT,PAST,FUTURE,WAITING,REJECTED,UNKNOWN
 
     /*
     Параметр state необязательный и по умолчанию равен ALL.

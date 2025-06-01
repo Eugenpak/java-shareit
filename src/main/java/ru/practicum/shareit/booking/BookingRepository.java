@@ -1,5 +1,6 @@
 package ru.practicum.shareit.booking;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import java.time.LocalDateTime;
@@ -14,62 +15,62 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     @Query("SELECT b FROM Booking b JOIN Item i ON b.item.id = i.id " +
             "WHERE b.booker.id = :bookerId " +
             "ORDER BY b.start DESC")
-    List<Booking> getAllBookingsByBookerId(Long bookerId);
+    List<Booking> getAllBookingsByBookerId(Long bookerId, Pageable pageable);
 
     @Query("SELECT b FROM Booking b JOIN Item i ON b.item.id = i.id " +
             "WHERE b.booker.id = :bookerId AND :currentTime BETWEEN b.start AND b.end " +
             "ORDER BY b.start DESC")
-    List<Booking> getAllCurrentBookingsByBookerId(Long bookerId, LocalDateTime currentTime);
+    List<Booking> getAllCurrentBookingsByBookerId(Long bookerId, LocalDateTime currentTime, Pageable pageable);
 
     @Query("SELECT b FROM Booking b JOIN Item i ON b.item.id = i.id " +
             "WHERE b.booker.id = :bookerId AND b.start > :currentTime " +
             "ORDER BY b.start DESC")
-    List<Booking> getAllFutureBookingsByBookerId(Long bookerId, LocalDateTime currentTime);
+    List<Booking> getAllFutureBookingsByBookerId(Long bookerId, LocalDateTime currentTime, Pageable pageable);
 
     @Query("SELECT b FROM Booking b JOIN Item i ON b.item.id = i.id " +
             "WHERE b.booker.id = :bookerId AND b.status = 'REJECTED' " +
             "ORDER BY b.start DESC")
-    List<Booking> getAllRejectedBookingsByBookerId(Long bookerId);
+    List<Booking> getAllRejectedBookingsByBookerId(Long bookerId, Pageable pageable);
 
     @Query("SELECT b FROM Booking b JOIN Item i ON b.item.id = i.id " +
             "WHERE b.booker.id = :bookerId AND b.end < :currentTime " +
             "ORDER BY b.start DESC")
-    List<Booking> getAllPastBookingsByBookerId(Long bookerId, LocalDateTime currentTime);
+    List<Booking> getAllPastBookingsByBookerId(Long bookerId, LocalDateTime currentTime, Pageable pageable);
 
     @Query("SELECT b FROM Booking b JOIN Item i ON b.item.id = i.id " +
             "WHERE b.booker.id = :bookerId AND b.status = 'WAITING' AND b.start > :currentTime " +
             "ORDER BY b.start DESC")
-    List<Booking> getAllWaitingBookingsByBookerId(Long bookerId, LocalDateTime currentTime);
+    List<Booking> getAllWaitingBookingsByBookerId(Long bookerId, LocalDateTime currentTime, Pageable pageable);
 
     @Query("SELECT b FROM Booking b JOIN Item i ON b.item.id = i.id " +
             "WHERE i.owner.id = :ownerId " +
             "ORDER BY b.start DESC")
-    List<Booking> getAllBookingsByOwnerId(Long ownerId);
+    List<Booking> getAllBookingsByOwnerId(Long ownerId, Pageable pageable);
 
     @Query("SELECT b FROM Booking b JOIN Item i ON b.item.id = i.id " +
             "WHERE i.owner.id = :ownerId AND :currentTime BETWEEN b.start AND b.end " +
             "ORDER BY b.start DESC")
-    List<Booking> getAllCurrentBookingsByOwnerId(Long ownerId, LocalDateTime currentTime);
+    List<Booking> getAllCurrentBookingsByOwnerId(Long ownerId, LocalDateTime currentTime, Pageable pageable);
 
     @Query("SELECT b FROM Booking b JOIN Item i ON b.item.id = i.id " +
             "WHERE i.owner.id = :ownerId AND b.status = 'WAITING' AND b.start > :currentTime " +
             "ORDER BY b.start DESC")
-    List<Booking> getAllWaitingBookingsByOwnerId(Long ownerId, LocalDateTime currentTime);
+    List<Booking> getAllWaitingBookingsByOwnerId(Long ownerId, LocalDateTime currentTime, Pageable pageable);
 
     @Query("SELECT b FROM Booking b JOIN Item i ON b.item.id = i.id " +
             "WHERE i.owner.id = :ownerId AND b.start > :currentTime " +
             "ORDER BY b.start DESC")
-    List<Booking> getAllFutureBookingsByOwnerId(Long ownerId, LocalDateTime currentTime);
+    List<Booking> getAllFutureBookingsByOwnerId(Long ownerId, LocalDateTime currentTime, Pageable pageable);
 
     @Query("SELECT b FROM Booking b JOIN Item i ON b.item.id = i.id " +
             "WHERE i.owner.id = :ownerId AND b.status = 'REJECTED' " +
             "ORDER BY b.start DESC")
-    List<Booking> getAllRejectedBookingsByOwnerId(Long ownerId);
+    List<Booking> getAllRejectedBookingsByOwnerId(Long ownerId, Pageable pageable);
 
     @Query("SELECT b FROM Booking b JOIN Item i ON b.item.id = i.id " +
             "WHERE i.owner.id = :ownerId AND b.end < :currentTime " +
             "ORDER BY b.start DESC")
-    List<Booking> getAllPastBookingsByOwnerId(Long ownerId, LocalDateTime currentTime);
+    List<Booking> getAllPastBookingsByOwnerId(Long ownerId, LocalDateTime currentTime, Pageable pageable);
 
    // для получения последнего и первого бронирования конкретной вещи
     Optional<Booking> findFirstByItemIdAndStatusAndStartBeforeOrderByStartDesc(Long itemId, Status status, LocalDateTime now);
