@@ -1,7 +1,21 @@
 package ru.practicum.shareit.request.dto;
 
-/**
- * TODO Sprint add-item-requests.
- */
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Value;
+import org.springframework.format.annotation.DateTimeFormat;
+import ru.practicum.shareit.item.dto.ItemDto;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Value
 public class ItemRequestDto {
+    Long id;
+    @NotBlank
+    String description;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-ddTHH:mm:ss")
+    LocalDateTime created;
+    List<ItemDto> items;
 }
