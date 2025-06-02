@@ -35,7 +35,7 @@ public class UserClient extends BaseClient {
     }
 
     public ResponseEntity<Object> getAll() {
-        String pathAwa =null;
+        String pathAwa = null;
         log.info("UserClient path='{}'", pathAwa);
         return get(pathAwa);
     }
