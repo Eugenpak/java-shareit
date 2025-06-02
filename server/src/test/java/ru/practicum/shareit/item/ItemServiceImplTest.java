@@ -27,10 +27,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static org.hamcrest.Matchers.is;
+
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+
 
 @ExtendWith(MockitoExtension.class)
 class ItemServiceImplTest {
@@ -107,6 +107,7 @@ class ItemServiceImplTest {
             Status.WAITING,
             userDto,
             itemDto);
+
     @Test
     void createItem() {
         when(userService.findUserById(userDto.getId())).thenReturn(userDto);

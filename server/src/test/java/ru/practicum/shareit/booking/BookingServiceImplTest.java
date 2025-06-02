@@ -24,10 +24,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+
 
 @ExtendWith(MockitoExtension.class)
 class BookingServiceImplTest {
@@ -295,9 +294,9 @@ class BookingServiceImplTest {
     @Test
     void findAllPastByBooker() {
         LocalDateTime currentTime = LocalDateTime.now().withNano(0);
-        System.out.println("currentTime = "+ currentTime);
-        System.out.println("booking.start = "+ booking.getStart());
-        System.out.println("booking.end = "+ booking.getEnd());
+        System.out.println("currentTime = " + currentTime);
+        System.out.println("booking.start = " + booking.getStart());
+        System.out.println("booking.end = " + booking.getEnd());
 
         when(bookingRepository.getAllPastBookingsByBookerId(1L, currentTime, PageRequest.of(0, 1)))
                 .thenReturn(List.of(booking));
@@ -311,9 +310,9 @@ class BookingServiceImplTest {
     @Test
     void findAllFutureByBooker() {
         LocalDateTime currentTime = LocalDateTime.now().withNano(0);
-        System.out.println("currentTime = "+ currentTime);
-        System.out.println("booking.start = "+ booking.getStart());
-        System.out.println("booking.end = "+ booking.getEnd());
+        System.out.println("currentTime = " + currentTime);
+        System.out.println("booking.start = " + booking.getStart());
+        System.out.println("booking.end = " + booking.getEnd());
 
         when(bookingRepository.getAllFutureBookingsByBookerId(1L, currentTime, PageRequest.of(0, 1)))
                 .thenReturn(List.of(booking));
@@ -355,9 +354,9 @@ class BookingServiceImplTest {
     @Test
     void findAllCurrentByOwner() {
         LocalDateTime currentTime = LocalDateTime.now().withNano(0);
-        System.out.println("currentTime = "+ currentTime);
-        System.out.println("booking.start = "+ booking.getStart());
-        System.out.println("booking.end = "+ booking.getEnd());
+        System.out.println("currentTime = " + currentTime);
+        System.out.println("booking.start = " + booking.getStart());
+        System.out.println("booking.end = " + booking.getEnd());
 
         when(bookingRepository.getAllCurrentBookingsByOwnerId(1L, currentTime, PageRequest.of(0, 1)))
                 .thenReturn(List.of(booking));
