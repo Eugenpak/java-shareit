@@ -50,12 +50,6 @@ public class UserRepositoryTest {
         User userTarg = query.setParameter("email", user.getEmail())
                 .getSingleResult();
 
-        /*
-        Assertions.assertNotNull(found);
-        Assertions.assertEquals(1L, found.getId());
-        Assertions.assertEquals(user.getName(), found.getName());
-        Assertions.assertEquals(user.getEmail(), found.getEmail()); */
-
         assertThat(userTarg.getId(), notNullValue());
         assertThat(userTarg.getName(), equalTo(user.getName()));
         assertThat(userTarg.getEmail(), equalTo(user.getEmail()));
