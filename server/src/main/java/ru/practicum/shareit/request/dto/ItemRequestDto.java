@@ -12,7 +12,6 @@ import java.util.List;
 @Value
 public class ItemRequestDto {
     Long id;
-    @NotBlank
     String description;
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-ddTHH:mm:ss")
