@@ -13,8 +13,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserDto {
     private Long id; //— уникальный идентификатор пользователя
-    @NotBlank(message = "must not be blank")
-    @Email(message = "Недопустимый email. Попробуйте снова.")
     private String email; //— электронная почта — email;
     private String name; //— имя для отображения — name;
 }

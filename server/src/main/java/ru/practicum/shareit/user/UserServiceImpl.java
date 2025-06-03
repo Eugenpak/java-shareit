@@ -39,9 +39,7 @@ public class UserServiceImpl implements UserService {
             log.error(str);
             throw new ConflictException(str);
         }
-        if (userDto.getName() == null || userDto.getName().isBlank()) {
-            log.info("USer -> create(): user.name = {}",userDto.getName());
-        }
+
         // сохраняем новую публикацию в памяти приложения
         User createdUser = repository.save(UserMapper.fromDto(userDto));
         log.info("Новый пользователь сохранен S (id=" + createdUser.getId() + ", email='" + createdUser.getEmail() + "')");

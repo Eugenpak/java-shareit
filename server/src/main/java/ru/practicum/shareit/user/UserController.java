@@ -12,7 +12,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/users")
-@Validated
 @Slf4j
 public class UserController {
     private final UserService userService;
@@ -30,7 +29,7 @@ public class UserController {
     }
 
     @PostMapping
-    public UserDto create(@Valid @RequestBody UserDto userDto) {
+    public UserDto create(@RequestBody UserDto userDto) {
         log.info("-----------------------------------------|create|------");
         log.info("U-C POST->Body UserDto = " + userDto);
         // сохраняем новую публикацию в памяти приложения
@@ -39,7 +38,7 @@ public class UserController {
     }
 
     @PatchMapping(value = "/{id}")
-    public UserDto update(@RequestBody UserDto userDto,@NotNull @PathVariable long id) {
+    public UserDto update(@RequestBody UserDto userDto,@PathVariable long id) {
         log.info("-----------------------------------------|update|------");
         log.info("Start UserDto update()");
         log.info("PUT->Body UserDto = " + userDto);
@@ -47,7 +46,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/{id}")
-    public UserDto findUserById(@NotNull @PathVariable long id) {
+    public UserDto findUserById(@PathVariable long id) {
         log.info("-----------------------------------------|findUserById|------");
         log.info("U-C UserDto findUserById(id=" + id + ")");
         UserDto findUser = userService.findUserById(id);
@@ -56,7 +55,7 @@ public class UserController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public void delUserById(@NotNull @PathVariable long id) {
+    public void delUserById(@PathVariable long id) {
         log.info("-----------------------------------------|delUserById|------");
         log.info("U-C UserDto delUserById(id=" + id + ")");
         userService.delUserById(id);
