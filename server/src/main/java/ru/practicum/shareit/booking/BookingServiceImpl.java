@@ -41,21 +41,6 @@ public class BookingServiceImpl implements BookingService {
             throw new ValidationException("Вещь недоступна для бронирования!");
         }
 
-        if (bookingInDto.getEnd().isBefore(bookingInDto.getStart())) {
-            log.warn("B-S create(). BAD_REQUEST. bookingInDto-> End-Start!");
-            throw new ValidationException("Дата окончания не может быть раньше даты начала!");
-        }
-
-        if (bookingInDto.getStart().isBefore(LocalDateTime.now())) {
-            log.warn("B-S create(). BAD_REQUEST. bookingInDto-> Start-Now!");
-            throw new ValidationException("Дата начала не может быть раньше текущей даты!");
-        }
-
-        if (bookingInDto.getStart().isEqual(bookingInDto.getEnd())) {
-            log.warn("B-S create(). BAD_REQUEST. bookingInDto-> Start != End!");
-            throw new ValidationException("Дата начала не может быть равна дате окончания");
-        }
-
         if (Objects.equals(itemDto.getOwnerId(), userDto.getId())) {
             log.warn("B-S create(). NOT_FOUND. itemDto-> owner!");
             throw new NotFoundException("Такой вещи нет!");
