@@ -106,18 +106,6 @@ public class ItemServiceImpl implements ItemService {
     public ItemDto addNewItem(long userId,ItemDto itemDto) {
         log.info("I-S -> addNewItem(): userId: {},itemDto: {}",userId,itemDto);
         UserDto userDto = userService.findUserById(userId);
-        if (itemDto.getName() == null || itemDto.getName().isBlank()) {
-            log.info("I-S -> addNewItem(): itemDto.name = {}",itemDto.getName());
-            throw new ValidationException("Поле 'name' не должно быть пустым!");
-        }
-        if (itemDto.getDescription() == null || itemDto.getDescription().isBlank()) {
-            log.info("I-S -> addNewItem(): itemDto.description = {}",itemDto.getDescription());
-            throw new ValidationException("Поле 'description' не должно быть пустым!");
-        }
-        if (itemDto.getAvailable() == null) {
-            log.info("I-S -> addNewItem(): itemDto.Available = {}",itemDto.getAvailable());
-            throw new ValidationException("Поле 'available' не должно быть пустым!");
-        }
 
         Item item = itemRepository.save(ItemMapper.fromDto(itemDto,userDto));
         log.info("Создана вещь {}",item);

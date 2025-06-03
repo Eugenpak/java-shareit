@@ -1,14 +1,11 @@
 package ru.practicum.shareit.item;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.shareit.Marker;
 import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
-import jakarta.validation.constraints.Min;
 
 import java.util.List;
 
@@ -21,16 +18,16 @@ public class ItemController {
     private final ItemService itemService;
 
     @GetMapping
-    public List<ItemDto> get(@NotNull @RequestHeader("X-Sharer-User-Id") long userId,
-                             @RequestParam(value = "from", required = false, defaultValue = "0") @Min(0) Integer from,
-                             @RequestParam(value = "size", required = false, defaultValue = "10") @Min(1) Integer size) {
+    public List<ItemDto> get(@RequestHeader("X-Sharer-User-Id") long userId,
+                             @RequestParam(value = "from", required = false, defaultValue = "0") Integer from,
+                             @RequestParam(value = "size", required = false, defaultValue = "10") Integer size) {
         log.info("-----------------------------------------|get|------");
         log.info("I-C -> get(X-Sharer-User-Id: {})",userId);
         return itemService.getItems(userId, from, size);
     }
 
     @GetMapping("/{itemId}")
-    public ItemDto getById(@NotNull @RequestHeader("X-Sharer-User-Id") long userId,
+    public ItemDto getById(@RequestHeader("X-Sharer-User-Id") long userId,
                            @PathVariable(name = "itemId") long itemId) {
         log.info("-----------------------------------------|getById|------");
         log.info("I-C -> getById(X-Sharer-User-Id: {},itemId: {})",userId,itemId);
@@ -38,17 +35,17 @@ public class ItemController {
     }
 
     @GetMapping("/search")
-    public List<ItemDto> getBySearch(@NotNull @RequestHeader("X-Sharer-User-Id") long userId,
+    public List<ItemDto> getBySearch(@RequestHeader("X-Sharer-User-Id") long userId,
                                  @RequestParam(name = "text", required = false) String text,
-                                 @RequestParam(value = "from", required = false, defaultValue = "0") @Min(0) Integer from,
-                                 @RequestParam(value = "size", required = false, defaultValue = "10") @Min(1) Integer size) {
+                                 @RequestParam(value = "from", required = false, defaultValue = "0") Integer from,
+                                 @RequestParam(value = "size", required = false, defaultValue = "10") Integer size) {
         log.info("-----------------------------------------|getBySearch|------");
         log.info("I-C -> getBySearch(X-Sharer-User-Id: {},text: {})",userId,text);
         return itemService.getBySearch(userId,text, from, size);
     }
 
     @PostMapping
-    public ItemDto add(@NotNull @RequestHeader("X-Sharer-User-Id") long userId,
+    public ItemDto add(@RequestHeader("X-Sharer-User-Id") long userId,
                        @RequestBody ItemDto itemDto) {
         log.info("-----------------------------------------|add|------");
         log.info("I-C -> add(X-Sharer-User-Id: {},itemDto: {})",userId,itemDto);
@@ -56,7 +53,7 @@ public class ItemController {
     }
 
     @PatchMapping("/{itemId}")
-    public ItemDto update(@NotNull @RequestHeader("X-Sharer-User-Id") long userId,
+    public ItemDto update(@RequestHeader("X-Sharer-User-Id") long userId,
                           @PathVariable(name = "itemId") long itemId,
                           @RequestBody ItemDto itemDto) {
         log.info("-----------------------------------------|update|------");
@@ -65,7 +62,7 @@ public class ItemController {
     }
 
     @DeleteMapping("/{itemId}")
-    public void deleteItem(@NotNull @RequestHeader("X-Sharer-User-Id") long userId,
+    public void deleteItem(@RequestHeader("X-Sharer-User-Id") long userId,
                            @PathVariable(name = "itemId") long itemId) {
         log.info("-----------------------------------------|deleteItem|------");
         log.info("I-C -> deleteItem(X-Sharer-User-Id: {},itemId: {})",userId,itemId);
@@ -73,7 +70,7 @@ public class ItemController {
     }
 
     @PostMapping("/{itemId}/comment")
-    public CommentDto addComment(@Validated({Marker.OnCreate.class}) @RequestBody CommentDto commentDto,
+    public CommentDto addComment(@RequestBody CommentDto commentDto,
                                  @RequestHeader("X-Sharer-User-Id") Long userId,
                                  @PathVariable Long itemId) {
         log.info("-----------------------------------------|addComment|------");
