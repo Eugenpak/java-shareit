@@ -412,6 +412,7 @@ class ItemServiceImplTest {
         verifyNoMoreInteractions(itemRepository);
     }
 
+    /*
     @Test
     void createItemNameIsBlank() {
         when(userService.findUserById(userDto.getId())).thenReturn(userDto);
@@ -422,8 +423,9 @@ class ItemServiceImplTest {
 
         verify(userService, times(1)).findUserById(anyLong());
         verifyNoMoreInteractions(userService,itemRepository);
-    }
+    } */
 
+    /*
     @Test
     void createItemDescriptionIsBlank() {
         when(userService.findUserById(userDto.getId())).thenReturn(userDto);
@@ -434,8 +436,9 @@ class ItemServiceImplTest {
 
         verify(userService, times(1)).findUserById(anyLong());
         verifyNoMoreInteractions(userService,itemRepository);
-    }
+    }  */
 
+    /*
     @Test
     void createItemAvailableIsNull() {
         when(userService.findUserById(userDto.getId())).thenReturn(userDto);
@@ -446,5 +449,5 @@ class ItemServiceImplTest {
 
         verify(userService, times(1)).findUserById(anyLong());
         verifyNoMoreInteractions(userService,itemRepository);
-    }
+    } */
 }

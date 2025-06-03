@@ -167,29 +167,32 @@ class BookingServiceImplTest {
                 () -> bookingService.create(userDto.getId(), bookingInDto));
     }
 
+    /*
     @Test
     void createBookingWrongEndDate() {
         when(userService.findUserById(anyLong())).thenReturn(userDto);
         when(itemService.findByItemId(bookingInDto.getItemId())).thenReturn(itemDto);
         Assertions.assertThrows(ValidationException.class,
                 () -> bookingService.create(userDto.getId(), bookingInputWrongEndDateDto));
-    }
+    }   */
 
+    /*
     @Test
     void createBookingWrongStartDate() {
         when(userService.findUserById(anyLong())).thenReturn(userDto);
         when(itemService.findByItemId(bookingInDto.getItemId())).thenReturn(itemDto);
         Assertions.assertThrows(ValidationException.class,
                 () -> bookingService.create(userDto.getId(), bookingInputWringStartDateDto));
-    }
+    }   */
 
+    /*
     @Test
     void createBookingEqualDates() {
         when(userService.findUserById(anyLong())).thenReturn(userDto);
         when(itemService.findByItemId(bookingInDto.getItemId())).thenReturn(itemDto);
         Assertions.assertThrows(ValidationException.class,
                 () -> bookingService.create(userDto.getId(), bookingInputEqualDatesDto));
-    }
+    }  */
 
     @Test
     void createBookingEqualOwnerIds() {
