@@ -25,7 +25,7 @@ public class BookingController {
 	private final BookingClient bookingClient;
 
 	@GetMapping
-	public ResponseEntity<Object> getBookings(@RequestHeader("X-Sharer-User-Id") long userId,
+	public ResponseEntity<Object> getBookings(@RequestHeader("X-Sharer-User-Id") @Positive long userId,
 			@RequestParam(name = "state", defaultValue = "all") String stateParam,
 			@PositiveOrZero @RequestParam(name = "from", defaultValue = "0") @Min(0) Integer from,
 			@Positive @RequestParam(name = "size", defaultValue = "10") @Min(1) Integer size) {
@@ -36,31 +36,31 @@ public class BookingController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Object> bookItem(@RequestHeader("X-Sharer-User-Id") long userId,
+	public ResponseEntity<Object> bookItem(@RequestHeader("X-Sharer-User-Id") @Positive long userId,
 			@RequestBody @Validated BookingInputDto requestDto) {  //@RequestBody @Valid BookItemRequestDto requestDto
 		log.info("Creating booking {}, userId={}", requestDto, userId);
 		return bookingClient.bookItem(userId, requestDto);
 	}
 
 	@GetMapping("/{bookingId}")
-	public ResponseEntity<Object> getBooking(@RequestHeader("X-Sharer-User-Id") long userId,
+	public ResponseEntity<Object> getBooking(@RequestHeader("X-Sharer-User-Id") @Positive long userId,
 			@PathVariable Long bookingId) {
 		log.info("Get booking {}, userId={}", bookingId, userId);
 		return bookingClient.getBooking(userId, bookingId);
 	}
 
 	@PatchMapping("/{bookingId}")
-	public ResponseEntity<Object> approveByOwner(@RequestHeader("X-Sharer-User-Id") Long userId,
+	public ResponseEntity<Object> approveByOwner(@RequestHeader("X-Sharer-User-Id") @Positive Long userId,
 												 @RequestParam("approved") Boolean approved,
-												 @PathVariable("bookingId") Long bookingId) {
+												 @PathVariable("bookingId") @Positive Long bookingId) {
 		return bookingClient.approveByOwner(userId, bookingId, approved);
 	}
 
 	@GetMapping("/owner")
-	public ResponseEntity<Object> getAllByOwner(@RequestHeader("X-Sharer-User-Id") Long userId,
+	public ResponseEntity<Object> getAllByOwner(@RequestHeader("X-Sharer-User-Id") @Positive Long userId,
 												@RequestParam(value = "state", defaultValue = "ALL") BookingState state,
-												@RequestParam(value = "from", required = false, defaultValue = "0") @Min(0) Integer from,
-												@RequestParam(value = "size", required = false, defaultValue = "10") @Min(1) Integer size) {
+												@RequestParam(value = "from", defaultValue = "0") @Min(0) Integer from,
+												@RequestParam(value = "size", defaultValue = "10") @Min(1) Integer size) {
 		return bookingClient.getAllByOwner(userId, state, from, size);
 	}
 

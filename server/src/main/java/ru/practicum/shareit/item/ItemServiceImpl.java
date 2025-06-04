@@ -93,9 +93,10 @@ public class ItemServiceImpl implements ItemService {
     public List<ItemDto> getBySearch(long userId,String text,Integer from,Integer size) {
         log.info("I-S -> getBySearch(): text = {}",text);
         Pageable pageable = PageRequest.of(from / size, size);
+        /*
         if (text.isEmpty()) {
             return new ArrayList<>();
-        }
+        } */
         List<Item> list = itemRepository.getBySearch(text, pageable);
         log.info("Поиск вещи потенциальным арендатором по тексту = '{}' выполнен",text);
         return ItemMapper.toDtos(list);
